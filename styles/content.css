@@ -1,0 +1,264 @@
+/* 内容页面通用样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    line-height: 1.8;
+    color: #2c3e50;
+    background: #f8f9fa;
+}
+
+.content-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    background: white;
+    min-height: 100vh;
+}
+
+article h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #5d8aa8;
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.lead {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: #34495e;
+    margin-bottom: 2rem;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+    font-family: 'Georgia', serif;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+ul, ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.quote {
+    font-style: italic;
+    color: #7f8c8d;
+    border-left: 4px solid #5d8aa8;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 1.05rem;
+    line-height: 1.9;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.theme-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #5d8aa8;
+}
+
+.theme-card h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+}
+
+.timeline {
+    margin-top: 2rem;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #5d8aa8;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #5d8aa8;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #5d8aa8;
+}
+
+.timeline-content {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.metaphor-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.metaphor-section:last-child {
+    border-bottom: none;
+}
+
+.metaphor-content {
+    margin-top: 1.5rem;
+}
+
+.analysis {
+    margin-top: 1.5rem;
+}
+
+.analysis ul {
+    margin-top: 1rem;
+}
+
+.insight {
+    background: #e8f4f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #5d8aa8;
+    margin-top: 1.5rem;
+    font-style: italic;
+    color: #34495e;
+}
+
+.essay {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #5d8aa8;
+}
+
+.essay h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.character-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #5d8aa8;
+}
+
+.character-name {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-family: 'Georgia', serif;
+}
+
+.character-role {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.character-analysis {
+    margin-top: 1rem;
+}
+
+.character-analysis h4 {
+    color: #34495e;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.conclusion {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e0e0e0;
+}
+
+.conclusion h2 {
+    color: #2c3e50;
+}
+
+@media (max-width: 768px) {
+    .content-page {
+        padding: 2rem 1rem;
+    }
+    
+    article h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .theme-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

@@ -1,0 +1,380 @@
+/* 雪落成诗页面样式 - 单滚轮设计 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --snow-primary: #2c3e50;
+    --snow-secondary: #34495e;
+    --snow-accent: #5d8aa8;
+    --snow-light: #ecf0f1;
+    --snow-bg: #f8f9fa;
+    --snow-text: #2c3e50;
+    --snow-text-light: #7f8c8d;
+    --snow-border: #bdc3c7;
+    --gradient-snow: linear-gradient(135deg, #5d8aa8 0%, #2c3e50 100%);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background-color: var(--snow-bg);
+    color: var(--snow-text);
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+.page-wrapper {
+    position: relative;
+}
+
+.hero {
+    background: var(--gradient-snow);
+    color: white;
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 1;
+}
+
+.main-title {
+    font-family: 'Georgia', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.95;
+}
+
+.author {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: white;
+    border-bottom: 2px solid var(--snow-border);
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+}
+
+.nav-item {
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    color: var(--snow-text);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+    scroll-behavior: smooth;
+}
+
+.nav-item:hover {
+    background-color: var(--snow-accent);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-item.active {
+    background-color: var(--snow-accent);
+    color: white;
+}
+
+.content-area {
+    position: relative;
+}
+
+.content-section {
+    min-height: 100vh;
+    padding: 3rem 2rem;
+    background: white;
+    margin-bottom: 2rem;
+    scroll-margin-top: 80px;
+}
+
+.section-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.section-content h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    color: var(--snow-primary);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--snow-accent);
+}
+
+.section-content h3 {
+    font-size: 1.8rem;
+    color: var(--snow-primary);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.section-content h4 {
+    font-size: 1.3rem;
+    color: var(--snow-secondary);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.lead {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: var(--snow-secondary);
+    margin-bottom: 2rem;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.theme-card {
+    background: var(--snow-bg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--snow-accent);
+}
+
+.theme-card h4 {
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+}
+
+.essay {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--snow-bg);
+    border-radius: 10px;
+    border-left: 4px solid var(--snow-accent);
+}
+
+.quote {
+    font-style: italic;
+    color: var(--snow-text-light);
+    border-left: 4px solid var(--snow-accent);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 1.05rem;
+    line-height: 1.9;
+}
+
+.metaphor-item {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--snow-border);
+}
+
+.metaphor-image {
+    position: relative;
+}
+
+.metaphor-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid var(--snow-accent);
+    display: block;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 100%);
+    border: 2px dashed var(--snow-accent);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: var(--snow-text-light);
+}
+
+.image-placeholder span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--snow-primary);
+    margin-bottom: 0.5rem;
+}
+
+.image-placeholder p {
+    font-size: 0.9rem;
+    color: var(--snow-text-light);
+}
+
+.metaphor-text h3 {
+    font-size: 1.8rem;
+    color: var(--snow-primary);
+    margin-bottom: 1rem;
+}
+
+.analysis {
+    margin-top: 1.5rem;
+}
+
+.analysis ul {
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.analysis li {
+    margin-bottom: 0.5rem;
+}
+
+.insight {
+    background: #e8f4f8;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--snow-accent);
+    margin-top: 1.5rem;
+    font-style: italic;
+    color: var(--snow-secondary);
+}
+
+.timeline {
+    margin: 2rem 0;
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--snow-accent);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--snow-accent);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--snow-accent);
+}
+
+.timeline-marker {
+    font-weight: 600;
+    color: var(--snow-accent);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-content h4 {
+    margin-bottom: 0.5rem;
+    color: var(--snow-primary);
+}
+
+.character-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--snow-accent);
+}
+
+.character-card h3 {
+    font-size: 1.8rem;
+    color: var(--snow-primary);
+    margin-bottom: 0.5rem;
+    font-family: 'Georgia', serif;
+}
+
+.character-role {
+    color: var(--snow-text-light);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.page-footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--snow-bg);
+    border-top: 2px solid var(--snow-border);
+}
+
+.back-link,
+.switch-link {
+    display: inline-block;
+    margin: 0 1rem 1rem;
+    color: var(--snow-accent);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.back-link:hover,
+.switch-link:hover {
+    color: var(--snow-primary);
+    text-decoration: underline;
+}
+
+.page-footer p {
+    color: var(--snow-text-light);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    .main-nav {
+        gap: 0.25rem;
+    }
+    .nav-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    .content-section {
+        padding: 2rem 1rem;
+    }
+    .metaphor-item {
+        grid-template-columns: 1fr;
+    }
+    .image-placeholder {
+        height: 200px;
+    }
+}
+
