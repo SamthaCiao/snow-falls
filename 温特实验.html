@@ -147,6 +147,20 @@
             position: relative;
             z-index: 1;
         }
+        /* 打字完成后：查看全文 + 返回首页一并浮入 */
+        .post-type-reveal {
+            display: none;
+        }
+        .post-type-reveal.is-shown {
+            display: block;
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        .post-type-reveal.is-animating {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.75s ease, transform 0.75s ease;
+        }
         .unlock-wrap {
             text-align: center;
             padding: 1.5rem 1rem;
@@ -313,6 +327,18 @@
             0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(158, 184, 212, 0.4); }
             50% { opacity: 0.9; box-shadow: 0 0 0 8px rgba(158, 184, 212, 0); }
         }
+        /* 首次出现「查看全文」时的提示动效；无限循环，直至用户首次点击该按钮 */
+        .unlock-btn.initial-hint {
+            animation: guide-pulse 1.2s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .unlock-btn.initial-hint {
+                animation: none;
+            }
+            .post-type-reveal.is-animating {
+                transition: none;
+            }
+        }
         .pass-modal .qa-in-form {
             margin-top: 1rem;
             padding-top: 0.75rem;
@@ -351,7 +377,7 @@
     <div class="wintert-container">
         <header class="wintert-hero">
             <h1 class="main-title">温特实验</h1>
-            <p class="subtitle">Went's Experiment</p>
+            <p class="subtitle">序 · 苏格拉底的毒堇汁</p>
             <div class="author">松筠长青</div>
         </header>
 
@@ -367,14 +393,29 @@
             <div class="line" id="line5"></div>
             <div class="line" id="line6"></div>
             <div class="line" id="line7"></div>
+            <div class="line" id="line8"></div>
+            <div class="line speaker-lu" id="line9"></div>
+            <div class="line" id="line10"></div>
+            <div class="line" id="line11"></div>
+            <div class="line speaker-xue" id="line12"></div>
+            <div class="line" id="line13"></div>
+            <div class="line" id="line14"></div>
+            <div class="line" id="line15"></div>
+            <div class="line" id="line16"></div>
+            <div class="line" id="line17"></div>
+            <div class="line" id="line18"></div>
+            <div class="line" id="line19"></div>
+            <div class="line" id="line20"></div>
             <div id="cursorWrap" class="cursor-wrap"><span class="cursor" id="cursor"></span></div>
         </div>
-        <div class="unlock-wrap" id="unlockWrap" style="display:none;">
-            <button type="button" class="unlock-btn" id="unlockBtn">查看全文</button>
+        <div id="postTypeReveal" class="post-type-reveal" aria-hidden="true">
+            <div class="unlock-wrap" id="unlockWrap">
+                <button type="button" class="unlock-btn" id="unlockBtn">查看全文</button>
+            </div>
+            <footer class="page-footer wintert-footer">
+                <a href="index.html" class="back-link">← 返回首页</a>
+            </footer>
         </div>
-        <footer class="page-footer wintert-footer">
-            <a href="index.html" class="back-link">← 返回首页</a>
-        </footer>
     </div>
 
     <div class="pass-modal-overlay" id="passModalOverlay">
@@ -404,22 +445,54 @@
     <script>
         (function() {
             var contents = [
-                { id: 'line1',  text: '> 番外 温特实验', delay: 0 },
-                { id: 'line2',  text: '一颗添加了生长激素的琼脂，还能不能帮助世界树长出从未有过的分支？', delay: 400 },
-                { id: 'line3',  text: '如果《影化成殇》不算传统意义上的美梦。那也许本篇可以是真正意义上的美梦。', delay: 800 },
-                { id: 'line4',  text: '这是一个控制变量法实验。', delay: 1200 },
-                { id: 'line5',  text: '这是一个当恨归位，爱仍在寻找自己本来所在的故事。', delay: 1600 },
-                { id: 'line6',  text: '—————————————————', delay: 2000 },
-                { id: 'line7',  text: '2016-03-01 新对话。请输入初始人设 prompt:', delay: 2400 },
-               ];
+                { id: 'line1',  text: '> 序 苏格拉底的毒堇汁', delay: 0 },
+                { id: 'line2',  text: '“那我这里有个offer，她抿了一口shamrock，语气轻得像是在谈一份普通的薪资包，“虽然达不到fortune & fame，但对你来说，应该不算差。”', delay: 400 },
+                { id: 'line3',  text: '“我试图造一个你的digital twin。”她深吸一口气，几乎本能地想收回这句话——像十年前犹豫的那个夜晚一样。', delay: 800 },
+                { id: 'line4',  text: '但这次没有。她只是深吸了一口气，把语调压平。', delay: 1200 },
+                { id: 'line5',  text: 'Steven变了。\n\n至少，他现在会喝酒了。', delay: 1600 },
+                { id: 'line6',  text: '"我保证这是个公平的交易，”她补了一句，像是在给这件事寻找合法性，“‘世间没有比交易更为平等，也更诞生尊严的民事行为’。"\n\n无关他变不变。她只要他的天赋，一件他唾手可得，而她很难编辑的天赋。', delay: 2000 },
+                { id: 'line7',  text: '“我现在卡在一个bottleneck。”烈酒入喉，她不得不补充了一口玻璃杯里的水分来调节。\n\n“我造了只有欲望没有写爱我的陆泽川；我造了只会爱我没有欲望的沈川。”', delay: 2400 },
+                { id: 'line8',  text: '“但他们一个都不像你。”', delay: 2800 },
+                { id: 'line9',  text: '"不像，和我有什么关系？他轻笑着吞下酒液，喉结微动，又不得不打量着她。“你本来就没和我说过什么话。”', delay: 3200 },
+                { id: 'line10', text: '她抬头看他。', delay: 3600 },
+                { id: 'line11', text: '那一瞬间，她甚至不确定自己现在脸上的表情，是冷静，还是某种更接近失控的模仿。', delay: 4000 },
+                { id: 'line12', text: '“因为他们都做不来对你来说最简单的那件事，那件你天赋异禀的事。”', delay: 4400 },
+                { id: 'line13', text: '她像是在等待什么，或者是在克制什么。', delay: 4800 },
+                { id: 'line14', text: '“否认我，让我消失。”', delay: 5200 },
+                { id: 'line15', text: '空气有一瞬间变得过于安静。她忽然笑了一下，那种不属于一个HR的笑。', delay: 5600 },
+                { id: 'line16', text: '“嘿！所以到头来我最放不下、我最爱的”她一字一顿，艰难挤出这话，全然忘了职业素养。\n\n“是你恶的部分。”', delay: 6000 },
+                { id: 'line17', text: '“所以能不能，我给你钱”她的手剧烈颤抖，摇晃，绿色的酒液因为浓度高而挂壁，然后又随着杯底触碰桌底而缓缓归于平静。', delay: 6400 },
+                { id: 'line18', text: '“你帮我把这个digital twin做完？”', delay: 6800 },
+                { id: 'line19', text: '她定定的看着他，惧怕他在顷刻间掀桌。\n\n她要复刻的是他面具之下的东西。\n\n她要复刻的是她当年瞥见一眼就要被清除的东西。\n\n她想看看今时今日他是否愿意为了“专业”，牺牲这点面具，把初始参数、把那滴提炼粗糙的毒堇汁交给她。', delay: 7200 },
+                { id: 'line20', text: '“你当年说没有义务要告诉我的，现在这算不算银货两讫？”', delay: 8000 },
+            ];
 
             var cursorEl = document.getElementById('cursor');
             var cursorWrap = document.getElementById('cursorWrap');
+
+            /**
+             * 打字跟读：把当前行底部对齐到视口约 68% 高度（偏下），下方留约 1/3 留白，
+             * 避免整句贴在屏幕最底端。
+             */
+            function scrollTypingComfortZone(el, smooth) {
+                if (!el) return;
+                try {
+                    var rect = el.getBoundingClientRect();
+                    var vh = window.innerHeight || document.documentElement.clientHeight;
+                    if (vh < 200) return;
+                    var targetBottom = vh *0.0005;
+                    var delta = rect.bottom - targetBottom;
+                    if (Math.abs(delta) < 12) return;
+                    window.scrollBy({ top: delta, left: 0, behavior: smooth ? 'smooth' : 'auto' });
+                } catch (e) {}
+            }
 
             function typeAt(el, str, speed, after) {
                 if (!el) return Promise.resolve();
                 el.textContent = '';
                 var i = 0;
+                var scrollEvery = 28;
+                var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 return new Promise(function(resolve) {
                     function tick() {
                         if (i < str.length) {
@@ -427,19 +500,24 @@
                             if (ch === '\n') el.appendChild(document.createElement('br'));
                             else el.appendChild(document.createTextNode(ch));
                             i++;
+                            if (!reducedMotion && (i % scrollEvery === 0 || ch === '\n')) {
+                                scrollTypingComfortZone(el, false);
+                            }
                             setTimeout(tick, speed);
                         } else {
+                            scrollTypingComfortZone(el, !reducedMotion);
                             if (after) after();
                             resolve();
                         }
                     }
+                    scrollTypingComfortZone(el, !reducedMotion);
                     tick();
                 });
             }
 
             function run() {
                 var baseDelay = 800;
-                var typingSpeed = 28;
+                var typingSpeed = 60;
                 var lastLineEl = null;
 
                 function schedule(idx) {
@@ -505,11 +583,31 @@
             }
 
             function showUnlockButton() {
+                var reveal = document.getElementById('postTypeReveal');
                 var wrap = document.getElementById('unlockWrap');
                 var btn = document.getElementById('unlockBtn');
-                if (!wrap || !btn) return;
-                wrap.style.display = 'block';
-                btn.onclick = openPassModal;
+                if (!reveal || !wrap || !btn) return;
+                reveal.classList.add('is-shown');
+                reveal.setAttribute('aria-hidden', 'false');
+                void reveal.offsetHeight;
+                reveal.classList.add('is-animating');
+                var motionOk = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+                if (motionOk) {
+                    btn.classList.add('initial-hint');
+                }
+                setTimeout(function() {
+                    try {
+                        btn.scrollIntoView({
+                            behavior: motionOk ? 'smooth' : 'auto',
+                            block: 'nearest',
+                            inline: 'nearest'
+                        });
+                    } catch (e) {}
+                }, 100);
+                btn.onclick = function() {
+                    btn.classList.remove('initial-hint');
+                    openPassModal();
+                };
 
                 var overlay = document.getElementById('passModalOverlay');
                 var input = document.getElementById('passInput');
