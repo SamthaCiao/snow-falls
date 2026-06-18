@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="《雪落成诗》与《影化成殇》——关于爱、创伤与救赎的哲学与心理学解读。雪遗诗与夏空山的故事。">
+    <meta name="keywords" content="雪落成诗,影化成殇,哲学,心理学,创伤,救赎,记忆,梦境,文学解读,温特实验">
+    <meta property="og:title" content="雪落成诗 · 影化成殇 | 哲学与心理学解读">
+    <meta property="og:description" content="关于爱、创伤与救赎的哲学思辨与心理学解读">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0a0a0f">
     <title>温特实验 · 松筠长青</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -447,7 +453,7 @@
             var contents = [
                 { id: 'line1',  text: '> 序 苏格拉底的毒堇汁', delay: 0 },
                 { id: 'line2',  text: '“那我这里有个offer，她抿了一口shamrock，语气轻得像是在谈一份普通的薪资包，“虽然达不到fortune & fame，但对你来说，应该不算差。”', delay: 400 },
-                { id: 'line3',  text: '“我试图造一个你的digital twin。”她深吸一口气，几乎本能地想收回这句话——像十年前犹豫的那个夜晚一样。', delay: 800 },
+                { id: 'line3',  text: '“我试图造一个你的digital twin。”她深吸一口气，几乎本能地想收回这句话————像十年前犹豫的那个夜晚一样。', delay: 800 },
                 { id: 'line4',  text: '但这次没有。她只是深吸了一口气，把语调压平。', delay: 1200 },
                 { id: 'line5',  text: 'Steven变了。\n\n至少，他现在会喝酒了。', delay: 1600 },
                 { id: 'line6',  text: '"我保证这是个公平的交易，”她补了一句，像是在给这件事寻找合法性，“‘世间没有比交易更为平等，也更诞生尊严的民事行为’。"\n\n无关他变不变。她只要他的天赋，一件他唾手可得，而她很难编辑的天赋。', delay: 2000 },
@@ -460,69 +466,173 @@
                 { id: 'line13', text: '她像是在等待什么，或者是在克制什么。', delay: 4800 },
                 { id: 'line14', text: '“否认我，让我消失。”', delay: 5200 },
                 { id: 'line15', text: '空气有一瞬间变得过于安静。她忽然笑了一下，那种不属于一个HR的笑。', delay: 5600 },
-                { id: 'line16', text: '“嘿！所以到头来我最放不下、我最爱的”她一字一顿，艰难挤出这话，全然忘了职业素养。\n\n“是你恶的部分。”', delay: 6000 },
-                { id: 'line17', text: '“所以能不能，我给你钱”她的手剧烈颤抖，摇晃，绿色的酒液因为浓度高而挂壁，然后又随着杯底触碰桌底而缓缓归于平静。', delay: 6400 },
+                { id: 'line16', text: '“嘿！所以到头来我最放不下、我最爱的，”她一字一顿，艰难挤出这话，全然忘了职业素养。\n\n“是你恶的部分。”', delay: 6000 },
+                { id: 'line17', text: '“所以能不能，我给你钱……”她的手剧烈颤抖，摇晃，绿色的酒液因为浓度高而挂壁，然后又随着杯底触碰桌底而缓缓归于平静。', delay: 6400 },
                 { id: 'line18', text: '“你帮我把这个digital twin做完？”', delay: 6800 },
                 { id: 'line19', text: '她定定的看着他，惧怕他在顷刻间掀桌。\n\n她要复刻的是他面具之下的东西。\n\n她要复刻的是她当年瞥见一眼就要被清除的东西。\n\n她想看看今时今日他是否愿意为了“专业”，牺牲这点面具，把初始参数、把那滴提炼粗糙的毒堇汁交给她。', delay: 7200 },
                 { id: 'line20', text: '“你当年说没有义务要告诉我的，现在这算不算银货两讫？”', delay: 8000 },
             ];
 
-            var cursorEl = document.getElementById('cursor');
             var cursorWrap = document.getElementById('cursorWrap');
+            var PASS_HASH = '3c575fe4b6c023e33eb322f74890d090';
+
+            function md5(s) {
+                function cmn(q, a, b, x, s, t) {
+                    a = (a + q + x + t) | 0;
+                    return (((a << s) | (a >>> (32 - s))) + b) | 0;
+                }
+                function ff(a, b, c, d, x, s, t) { return cmn((b & c) | (~b & d), a, b, x, s, t); }
+                function gg(a, b, c, d, x, s, t) { return cmn((b & d) | (c & ~d), a, b, x, s, t); }
+                function hh(a, b, c, d, x, s, t) { return cmn(b ^ c ^ d, a, b, x, s, t); }
+                function ii(a, b, c, d, x, s, t) { return cmn(c ^ (b | ~d), a, b, x, s, t); }
+                function md5blk(buf) {
+                    var md5blks = [], i;
+                    for (i = 0; i < 64; i += 4) {
+                        md5blks[i >> 2] = buf.charCodeAt(i) + (buf.charCodeAt(i + 1) << 8) +
+                            (buf.charCodeAt(i + 2) << 16) + (buf.charCodeAt(i + 3) << 24);
+                    }
+                    return md5blks;
+                }
+                function md51(s) {
+                    var n = s.length, state = [1732584193, -271733879, -1732584194, 271733878], i;
+                    for (i = 64; i <= n; i += 64) {
+                        md5cycle(state, md5blk(s.substring(i - 64, i)));
+                    }
+                    s = s.substring(i - 64);
+                    var tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    for (i = 0; i < s.length; i++) tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+                    tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+                    if (i > 55) { md5cycle(state, tail); tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; }
+                    tail[14] = n * 8;
+                    md5cycle(state, tail);
+                    return state;
+                }
+                function md5cycle(x, k) {
+                    var a = x[0], b = x[1], c = x[2], d = x[3];
+                    a = ff(a, b, c, d, k[0], 7, -680876936); d = ff(d, a, b, c, k[1], 12, -389564586);
+                    c = ff(c, d, a, b, k[2], 17, 606105819); b = ff(b, c, d, a, k[3], 22, -1044525330);
+                    a = ff(a, b, c, d, k[4], 7, -176418897); d = ff(d, a, b, c, k[5], 12, 1200080426);
+                    c = ff(c, d, a, b, k[6], 17, -1473231341); b = ff(b, c, d, a, k[7], 22, -45705983);
+                    a = ff(a, b, c, d, k[8], 7, 1770035416); d = ff(d, a, b, c, k[9], 12, -1958414417);
+                    c = ff(c, d, a, b, k[10], 17, -42063); b = ff(b, c, d, a, k[11], 22, -1990404162);
+                    a = ff(a, b, c, d, k[12], 7, 1804603682); d = ff(d, a, b, c, k[13], 12, -40341101);
+                    c = ff(c, d, a, b, k[14], 17, -1502002290); b = ff(b, c, d, a, k[15], 22, 1236535329);
+                    a = gg(a, b, c, d, k[1], 5, -165796510); d = gg(d, a, b, c, k[6], 9, -1069501632);
+                    c = gg(c, d, a, b, k[11], 14, 643717713); b = gg(b, c, d, a, k[0], 20, -373897302);
+                    a = gg(a, b, c, d, k[5], 5, -701558691); d = gg(d, a, b, c, k[10], 9, 38016083);
+                    c = gg(c, d, a, b, k[15], 14, -660478335); b = gg(b, c, d, a, k[4], 20, -405537848);
+                    a = gg(a, b, c, d, k[9], 5, 568446438); d = gg(d, a, b, c, k[14], 9, -1019803690);
+                    c = gg(c, d, a, b, k[3], 14, -187363961); b = gg(b, c, d, a, k[8], 20, 1163531501);
+                    a = gg(a, b, c, d, k[13], 5, -1444681467); d = gg(d, a, b, c, k[2], 9, -51403784);
+                    c = gg(c, d, a, b, k[7], 14, 1735328473); b = gg(b, c, d, a, k[12], 20, -1926607734);
+                    a = hh(a, b, c, d, k[5], 4, -378558); d = hh(d, a, b, c, k[8], 11, -2022574463);
+                    c = hh(c, d, a, b, k[11], 16, 1839030562); b = hh(b, c, d, a, k[14], 23, -35309556);
+                    a = hh(a, b, c, d, k[1], 4, -1530992060); d = hh(d, a, b, c, k[4], 11, 1272893353);
+                    c = hh(c, d, a, b, k[7], 16, -155497632); b = hh(b, c, d, a, k[10], 23, -1094730640);
+                    a = hh(a, b, c, d, k[13], 4, 681279174); d = hh(d, a, b, c, k[0], 11, -358537222);
+                    c = hh(c, d, a, b, k[3], 16, -722521979); b = hh(b, c, d, a, k[6], 23, 76029189);
+                    a = hh(a, b, c, d, k[9], 4, -640364487); d = hh(d, a, b, c, k[12], 11, -421815835);
+                    c = hh(c, d, a, b, k[15], 16, 530742520); b = hh(b, c, d, a, k[2], 23, -995338651);
+                    a = ii(a, b, c, d, k[0], 6, -198630844); d = ii(d, a, b, c, k[7], 10, 1126891415);
+                    c = ii(c, d, a, b, k[14], 15, -1416354905); b = ii(b, c, d, a, k[5], 21, -57434055);
+                    a = ii(a, b, c, d, k[12], 6, 1700485571); d = ii(d, a, b, c, k[3], 10, -1894986606);
+                    c = ii(c, d, a, b, k[10], 15, -1051523); b = ii(b, c, d, a, k[1], 21, -2054922799);
+                    a = ii(a, b, c, d, k[8], 6, 1873313359); d = ii(d, a, b, c, k[15], 10, -30611744);
+                    c = ii(c, d, a, b, k[6], 15, -1560198380); b = ii(b, c, d, a, k[13], 21, 1309151649);
+                    a = ii(a, b, c, d, k[4], 6, -145523070); d = ii(d, a, b, c, k[11], 10, -1120210379);
+                    c = ii(c, d, a, b, k[2], 15, 718787259); b = ii(b, c, d, a, k[9], 21, -343485551);
+                    x[0] = (a + x[0]) | 0; x[1] = (b + x[1]) | 0; x[2] = (c + x[2]) | 0; x[3] = (d + x[3]) | 0;
+                }
+                function rhex(n) {
+                    var s = '', j;
+                    for (j = 0; j < 4; j++) s += ('0' + ((n >> (j * 8 + 4)) & 0x0F).toString(16) + ((n >> (j * 8)) & 0x0F).toString(16)).slice(-2);
+                    return s;
+                }
+                return md51(s).map(rhex).join('');
+            }
+
+            function verifyPassword(input) {
+                return md5((input || '').toLowerCase().trim()) === PASS_HASH;
+            }
+
+            function getTypingSpeed(text) {
+                var len = (text || '').length;
+                if (len < 50) return 80;
+                if (len < 200) return 60;
+                return 40;
+            }
+
+            function scrollScrollEvery(textLen) {
+                if (textLen < 50) return 12;
+                if (textLen < 200) return 24;
+                return 40;
+            }
+
+            function placeCursorAtEnd(el) {
+                cursorWrap.style.display = 'inline-block';
+                if (cursorWrap.parentNode) cursorWrap.parentNode.removeChild(cursorWrap);
+                el.appendChild(cursorWrap);
+            }
 
             /**
              * 打字跟读：把当前行底部对齐到视口约 68% 高度（偏下），下方留约 1/3 留白，
              * 避免整句贴在屏幕最底端。
              */
-            function scrollTypingComfortZone(el, smooth) {
-                if (!el) return;
-                try {
-                    var rect = el.getBoundingClientRect();
-                    var vh = window.innerHeight || document.documentElement.clientHeight;
-                    if (vh < 200) return;
-                    var targetBottom = vh *0.0005;
-                    var delta = rect.bottom - targetBottom;
-                    if (Math.abs(delta) < 12) return;
-                    window.scrollBy({ top: delta, left: 0, behavior: smooth ? 'smooth' : 'auto' });
-                } catch (e) {}
+            var scrollPending = false;
+            function scrollTypingComfortZone(el) {
+                if (!el || scrollPending) return;
+                scrollPending = true;
+                requestAnimationFrame(function() {
+                    scrollPending = false;
+                    try {
+                        var rect = el.getBoundingClientRect();
+                        var vh = window.innerHeight || document.documentElement.clientHeight;
+                        if (vh < 200) return;
+                        var targetBottom = vh * 0.68;
+                        var delta = rect.bottom - targetBottom;
+                        if (Math.abs(delta) < 12) return;
+                        window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
+                    } catch (e) {}
+                });
             }
 
             function typeAt(el, str, speed, after) {
                 if (!el) return Promise.resolve();
                 el.textContent = '';
                 var i = 0;
-                var scrollEvery = 28;
+                var scrollEvery = scrollScrollEvery(str.length);
                 var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (reducedMotion) speed = 0;
+                placeCursorAtEnd(el);
                 return new Promise(function(resolve) {
                     function tick() {
                         if (i < str.length) {
+                            if (cursorWrap.parentNode === el) el.removeChild(cursorWrap);
                             var ch = str[i];
                             if (ch === '\n') el.appendChild(document.createElement('br'));
                             else el.appendChild(document.createTextNode(ch));
+                            el.appendChild(cursorWrap);
                             i++;
                             if (!reducedMotion && (i % scrollEvery === 0 || ch === '\n')) {
-                                scrollTypingComfortZone(el, false);
+                                scrollTypingComfortZone(el);
                             }
                             setTimeout(tick, speed);
                         } else {
-                            scrollTypingComfortZone(el, !reducedMotion);
+                            placeCursorAtEnd(el);
+                            if (!reducedMotion) scrollTypingComfortZone(el);
                             if (after) after();
                             resolve();
                         }
                     }
-                    scrollTypingComfortZone(el, !reducedMotion);
+                    if (!reducedMotion) scrollTypingComfortZone(el);
                     tick();
                 });
             }
 
             function run() {
-                var baseDelay = 800;
-                var typingSpeed = 60;
-                var lastLineEl = null;
-
                 function schedule(idx) {
                     if (idx >= contents.length) {
-                        cursorWrap.style.display = 'inline-block';
+                        placeCursorAtEnd(document.getElementById('terminal'));
                         showUnlockButton();
                         return;
                     }
@@ -532,12 +642,9 @@
                         schedule(idx + 1);
                         return;
                     }
-                    cursorWrap.style.display = 'none';
-                    lastLineEl = el;
                     setTimeout(function() {
-                        typeAt(el, item.text, typingSpeed, function() {
-                            cursorWrap.style.display = 'inline-block';
-                            el.appendChild(cursorWrap);
+                        typeAt(el, item.text, getTypingSpeed(item.text), function() {
+                            placeCursorAtEnd(el);
                             setTimeout(function() {
                                 if (idx + 1 < contents.length) {
                                     if (cursorWrap.parentNode) cursorWrap.parentNode.removeChild(cursorWrap);
@@ -621,7 +728,7 @@
                 if (confirmBtn) {
                     confirmBtn.onclick = function() {
                         var pass = (input.value || '').trim();
-                        if (pass.toLowerCase() === 'biology') {
+                        if (verifyPassword(pass)) {
                             window.location.href = '番外 · 温特实验.html';
                         } else if (pass !== '') {
                             wrongAttempts++;

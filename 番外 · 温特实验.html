@@ -1728,20 +1728,81 @@
     </div>
     <script>
         (function () {
-            // 1) 正文打字机（速度偏快）：逐个 intro 段落输出，光标跟随当前输出位置
+            // 1) 正文打字机：逐段输出，速度随段落长度调整，光标跟随当前输出位置
             var cursorWrap = document.getElementById('cursorWrap');
-            var cursor = document.getElementById('cursor');
             var typeBlocks = Array.prototype.slice.call(document.querySelectorAll('.js-type'));
             var firstBlock = typeBlocks.length ? typeBlocks[0] : null;
             var terminalBody = document.querySelector('.terminal-body');
 
-            var CHAR_PER_TICK = 3;      // 每次写入几个字符（越大越快）
-            var TICK_MS = 50;           // tick 间隔（越小越快）
-            var PAUSE_BETWEEN = 120;    // 段落间短暂停顿
+            var PAUSE_BETWEEN = 410;
 
-            function appendCursorTo(node) {
-                if (!cursorWrap) return;
-                try { node.appendChild(cursorWrap); } catch (e) {}
+            function getTickMs(textLen) {
+                if (textLen < 80) return 118;
+                if (textLen < 400) return 103;
+                return 89;
+            }
+
+            /** 按短语/标点切分，接近 PPT 逐行浮现感，而非单字蹦 */
+            function takeFlowChunk(text, i) {
+                var rest = text.slice(i);
+                if (!rest.length) return '';
+                var max = rest.length < 80 ? 3 : rest.length < 400 ? 5 : 7;
+                var slice = rest.slice(0, Math.min(max, rest.length));
+                if (slice.length < max) return slice;
+                var punct = '，。！？；：…\n」）】"\u201d ';
+                for (var k = slice.length; k >= 2; k--) {
+                    if (punct.indexOf(slice.charAt(k - 1)) >= 0) return slice.slice(0, k);
+                }
+                return slice;
+            }
+
+            function scrollScrollEvery(textLen) {
+                if (textLen < 80) return 18;
+                if (textLen < 400) return 32;
+                return 48;
+            }
+
+            function placeCursorAtEnd(el) {
+                if (!cursorWrap || !el) return;
+                cursorWrap.style.display = 'inline-block';
+                if (cursorWrap.parentNode) cursorWrap.parentNode.removeChild(cursorWrap);
+                el.appendChild(cursorWrap);
+            }
+
+            var scrollPending = false;
+            function scrollBlockStartIntoView(block) {
+                if (!block || !terminalBody) return;
+                requestAnimationFrame(function () {
+                    try {
+                        var rootRect = terminalBody.getBoundingClientRect();
+                        var blockRect = block.getBoundingClientRect();
+                        var padding = 18;
+                        var targetTop = rootRect.top + padding;
+                        var delta = blockRect.top - targetTop;
+                        if (Math.abs(delta) > 6) {
+                            terminalBody.scrollTop += delta;
+                        }
+                    } catch (e) {}
+                });
+            }
+
+            /** 跟随光标（非整块 intro-out，避免透明占位把视口拉到段末） */
+            function scrollTypingComfortZone() {
+                if (!cursorWrap || !terminalBody || scrollPending) return;
+                scrollPending = true;
+                requestAnimationFrame(function () {
+                    scrollPending = false;
+                    try {
+                        var rect = cursorWrap.getBoundingClientRect();
+                        var rootRect = terminalBody.getBoundingClientRect();
+                        var vh = rootRect.height;
+                        if (vh < 100) return;
+                        var targetY = rootRect.top + vh * 0.65;
+                        var delta = rect.bottom - targetY;
+                        if (Math.abs(delta) < 22) return;
+                        terminalBody.scrollTop += delta;
+                    } catch (e) {}
+                });
             }
 
             function typeOne(block) {
@@ -1750,28 +1811,33 @@
                     var out = block.querySelector('.intro-out');
                     if (!src || !out) return resolve();
                     var text = src.textContent || '';
+                    var tickMs = getTickMs(text.length);
+                    var scrollEvery = scrollScrollEvery(text.length);
+                    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    if (reducedMotion) tickMs = 0;
                     var i = 0;
                     out.textContent = '';
-                    appendCursorTo(out);
+                    if (terminalBody && block === firstBlock) {
+                        terminalBody.scrollTop = 0;
+                    }
+                    scrollBlockStartIntoView(block);
+                    placeCursorAtEnd(out);
 
                     function tick() {
                         if (i >= text.length) {
-                            // 段落完成：光标落在段末
-                            appendCursorTo(out);
+                            placeCursorAtEnd(out);
+                            if (!reducedMotion) scrollTypingComfortZone();
                             return setTimeout(resolve, PAUSE_BETWEEN);
                         }
-                        var next = text.slice(i, i + CHAR_PER_TICK);
+                        if (cursorWrap.parentNode === out) out.removeChild(cursorWrap);
+                        var next = reducedMotion ? text.slice(i) : takeFlowChunk(text, i);
                         out.appendChild(document.createTextNode(next));
-                        i += CHAR_PER_TICK;
-                        // 跟随滚动：如果光标在可视区底部外，自动下滑一点
-                        if (terminalBody && cursorWrap) {
-                            var rect = cursorWrap.getBoundingClientRect();
-                            var rootRect = terminalBody.getBoundingClientRect();
-                            if (rect.bottom > rootRect.bottom - 24) {
-                                terminalBody.scrollTop += 18;
-                            }
+                        out.appendChild(cursorWrap);
+                        i += next.length;
+                        if (!reducedMotion && (i % scrollEvery === 0 || next.indexOf('\n') !== -1)) {
+                            scrollTypingComfortZone();
                         }
-                        setTimeout(tick, TICK_MS);
+                        setTimeout(tick, reducedMotion ? 0 : tickMs);
                     }
                     tick();
                 });
